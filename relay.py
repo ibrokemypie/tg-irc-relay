@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 #  Copyright 2015 Dingyuan Wang
@@ -21,7 +21,8 @@ import re
 import sys
 import time
 import json
-import queue
+import Queue
+from multiprocessing import Queue
 import socket
 import logging
 import threading
@@ -539,14 +540,14 @@ COMMANDS = collections.OrderedDict((
 
 USER_CACHE = LRUCache(20)
 MSG_CACHE = LRUCache(10)
-CFG = json.load(open('config.json', 'r', encoding='utf-8'))
+CFG = json.load(open('config.json', 'r'))
 CFG['offset'] = CFG.get('offset', 0)
 URL = 'https://api.telegram.org/bot%s/' % CFG['token']
 URL_FILE = 'https://api.telegram.org/file/bot%s/' % CFG['token']
 
 CFG.setdefault('shownick', True)
 
-MSG_Q = queue.Queue()
+MSG_Q = Queue()
 executor = concurrent.futures.ThreadPoolExecutor(3)
 
 pollthr = threading.Thread(target=getupdates)
